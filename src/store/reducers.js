@@ -11,7 +11,7 @@ const initialState = {
             details: 'Exemplo de descrição de nota 2'
         },
     ],
-    name: 'Marcelo'
+    name: 'Geraud'
 }
 
 export default (state = initialState, action) => {
