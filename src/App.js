@@ -1,25 +1,46 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Header from './components/Header';
+import Grid from './components/Grid';
+import Form from './components/Form';
+import { getNotes, addNote, removeNote } from './store/actions';
+import Calculator from './components/Calculator';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {  
+  render() {
+    return (
+      <div>
+        <Header name={this.props.name} />
+        <div className='app'>
+          <Form addNote={this.props.addNote} />
+          <Grid notes={this.props.notes} removeNote={this.props.removeNote} />
+          <Calculator/>
+        </div>
+      </div>
+    );
+  }
 }
 
-export default App;
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    getNotes: () => {
+      dispatch(getNotes())
+    },
+    addNote: (note) => {
+      dispatch(addNote(note))
+    },
+    removeNote: (id) => {
+      dispatch(removeNote(id))
+    },
+  }
+}
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    notes: state.notes,
+    name: state.name,
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
